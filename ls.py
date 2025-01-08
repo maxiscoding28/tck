@@ -1,4 +1,5 @@
 import os
+import json
 
 def list_directories_in_tck():
     # Get the path to the .tck directory in the home directory
@@ -19,8 +20,20 @@ def list_directories_in_tck():
     else:
         print(f"Subdirectories in {tck_dir}:")
         for directory in directories:
-            print(f"- {directory}")
+            subdirectory_path = os.path.join(tck_dir, directory)
+            meta_file_path = os.path.join(subdirectory_path, 'meta.json')
+            
+            # Try to read the description from meta.json
+            description = "No description found."
+            if os.path.exists(meta_file_path):
+                try:
+                    with open(meta_file_path, 'r') as meta_file:
+                        meta_data = json.load(meta_file)
+                        description = meta_data.get("description", "No description found.")
+                except (json.JSONDecodeError, IOError) as e:
+                    description = f"Error reading meta.json: {e}"
+            
+            print(f"- {directory}: {description}")
 
 if __name__ == "__main__":
     list_directories_in_tck()
-

@@ -23,7 +23,8 @@ def main():
 
     # Subparser for 'create' command
     parser_create = subparsers.add_parser("create", help="Run the create script")
-    parser_create.add_argument("arg", help="Argument for the create script")
+    parser_create.add_argument("directory_name", help="Directory name for the create script")
+    parser_create.add_argument("description", help="Description for the ticket")
 
     # Subparser for 'goto' command
     parser_goto = subparsers.add_parser("goto", help="Run the goto script")
@@ -43,7 +44,7 @@ def main():
 
     # Route the command to the appropriate script
     if args.command == "create":
-        run_script("create", args.arg)
+        run_script("create", args.directory_name, args.description)
     elif args.command == "goto":
         run_script("goto", args.arg)
     elif args.command == "ls":
